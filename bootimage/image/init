@@ -2,6 +2,9 @@
 
 /bin/busybox sh /busyboxinit.sh
 
+mkdir proc
+mkdir sys
+
 mount -t proc proc proc
 mount -t sysfs sys sys
 mdev -s
@@ -11,7 +14,7 @@ udhcpc -i eth0 -s /etc/udhcpc.script
 
 clear
 echo "Welcome to the Fast Linux Deployment Toolkit"
-
+echo "Built by Andrew Lobos <andrew@lobos.me>"
 sh /imaging.sh
 sh
 #drop to shell
