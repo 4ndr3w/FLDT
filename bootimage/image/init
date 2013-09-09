@@ -1,0 +1,21 @@
+#!/bin/busybox sh
+
+/bin/busybox sh /busyboxinit.sh
+
+mkdir proc
+mkdir sys
+
+mount -t proc proc proc
+mount -t sysfs sys sys
+mdev -s
+
+ifconfig eth0 up
+udhcpc -i eth0 -s /etc/udhcpc.script
+
+clear
+echo "Welcome to the Fast Linux Deployment Toolkit"
+echo "Built by Andrew Lobos <andrew@lobos.me>"
+sh /image.sh
+sh
+#drop to shell
+#setsid sh -c 'exec sh </dev/tty1 >/dev/tty1 2>&1'
