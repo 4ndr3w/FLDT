@@ -15,6 +15,7 @@ udhcpc -i eth0 -s /etc/udhcpc.script
 clear
 echo "Welcome to the Fast Linux Deployment Toolkit"
 echo "Built by Andrew Lobos <andrew@lobos.me>"
+
 sh /image.sh
 sh
 #drop to shell
