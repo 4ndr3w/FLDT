@@ -41,7 +41,7 @@ app.get("/api/images", function(req,res)
 
 app.get("/api/hostname", function (req,res)
 {
-	mac = req.param("mac");
+	mac = req.param("mac").toString().toLowerCase();
 	hostDB.getHostnameByMAC(mac, function(host)
 	{
 		if ( host )
@@ -91,6 +91,10 @@ app.get("/hosts", function(req,res) {
 		{
 			redis.mget(hosts, function(err, macAddrs)
 			{
+				for ( var i = 0; i < hosts.length; i++)
+				{
+					hosts[i] = hosts[i].substring(4);
+				}
 				res.locals({
 					hosts: hosts,
 					macAddrs: macAddrs,
