@@ -16,7 +16,8 @@
 	     	 <li class="active"><a href="/multicast">Multicast</a></li>
 	    	</ul>
 	  	</div>
-	</div>
+	  </div>
+	 </div>
 	<br><br><br>
 	<div class="container">
 		@if (locals.inProgress) {
