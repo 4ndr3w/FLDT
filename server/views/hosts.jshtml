@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Imaging</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+	<div class="navbar navbar-fixed-top">
+	  <div class="navbar-inner">
+	  	<div class="container">
+	   	 <a class="brand" href="#">FLDT</a>
+	    	<ul class="nav">
+	    	  <li><a href="/images">Images</a></li>
+	      	 <li class="active"><a href="/hosts">Hosts</a></li>
+	     	 <li><a href="/multicast">Multicast</a></li>
+	    	</ul>
+	  	</div>
+	</div>
+	
+	<div class="container">
+		<br>
+		<h3>Hosts</h3>
+		<hr>
+		<form action="" method="post" enctype="multipart/form-data">
+		Upload host CSV: <input type="file" name="file" id="file">
+		<input class="btn btn-success" type="submit" name="submit" value="Upload">
+		</form>
+		
+		@nHosts hosts are in the database.<br>
+		
+		<a href="/hosts?reset=true" class="btn btn-warning">Reset Hosts</a>
+		<br><br>
+		<div class="well">
+		This data is used for auto-naming of hosts when the imaging script checks in.<br>
+		Host CSVs should use this format: <br>
+		hostname,serial,assetTag,wMAC,eMAC,building<br>
+		Only the hostname and ethernet MAC fields are used.<br><br>
+		Hostname data is not retained if the server restarts. Do not use this as a datastore for your host information.
+		</div>
+		<br><br>
+		<table class="table table-bordered">
+		<tr>
+			<th>Hostname</th>
+			<th>MAC Address</th>
+		</tr>
+		@for(i in locals.hosts)
+		{
+			host = locals.hosts[i];
+			mac = locals.macAddrs[i];
+			<tr>
+				<td>@host</td>
+				<td>@mac</td>
+			</tr>
+		}
+	</div>
+    <script src="/static/js/jquery.js"></script>
+  </body>
+</html>

@@ -1,30 +1,23 @@
 #!/bin/sh
-mkdir mnt
-mount -t nfs4 10.0.0.1:/images mnt
 
-HOSTNAME_SERVER="10.0.0.1"
-
+IMAGING_SERVER="10.0.0.1"
 MACADDR=`ifconfig | grep "eth0" | tr -s ' ' | cut -d ' ' -f5`
-wget -O hostname http://$HOSTNAME_SERVER/getHostname.php?mac=$MACADDR 2> /dev/null
+wget -O hostname http://$IMAGING_SERVER/api/hostname?mac=$MACADDR 2> /dev/null
+wget -O currentImage http://$IMAGING_SERVER/api/currentImage 2> /dev/null
 HOSTNAME="`cat hostname`"
+IMAGE_NAME="`cat currentImage`"
 
 echo "I am $HOSTNAME with MAC address $MACADDR"
 
-echo ""
-echo "Restoring partition table"
-dd if=/ubuntu.mbr.bin of=/dev/sda bs=512 count=1
-#Re-read partition table
+mount -t nfs4 $IMAGING_SERVER:/images /nfs
+
 hdparm -z /dev/sda
 mdev -s
 
-echo "Imaging sda2"
-partclone.extfs -r -s /mnt/sda2.v2.ubuntu.img -o /dev/sda2 -L /partclone.log
-
-echo "Imaging sda1"
-partclone.extfs -r -s /mnt/sda1.v2.ubuntu.img -o /dev/sda1 -L /partclone.log
+partclone.extfs -r -s /nfs/$IMAGE_NAME/sda1 -o /dev/sda1 -L /partclone.log
 
 # Setup mnt enviorment for chroots
-mount /dev/sda1 mnt
+mount /dev/sda1 /mnt
 
 chroot /mnt sh -c "chage -d 0 user"
 
@@ -48,6 +41,7 @@ rm -f /mnt/usr/share/applications/gnome-network-panel.desktop
 # Reset network rules
 rm -f /mnt/etc/udev/rules.d/70-persistent-net.rules
 
-umount /mnt
+# Reinstall GRUB in chroot
+sh /fixGrub.sh
 
-echo "Done imaging"
+umount /mnt

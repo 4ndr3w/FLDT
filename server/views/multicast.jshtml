@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Imaging</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+	<div class="navbar navbar-fixed-top">
+	  <div class="navbar-inner">
+	  	<div class="container">
+	   	 <a class="brand" href="#">FLDT</a>
+	    	<ul class="nav">
+	    	 <li><a href="/images">Images</a></li>
+	      	 <li><a href="/hosts">Hosts</a></li>
+	     	 <li class="active"><a href="/multicast">Multicast</a></li>
+	    	</ul>
+	  	</div>
+	</div>
+	<br><br><br>
+	<div class="container">
+		@if (locals.inProgress) {
+			<div class="alert alert-success">
+			Multicast is active for image @locals.currentImage - PID: @locals.pid
+			</div>
+			<a href="/multicast?stop=true" class="pull-right btn btn-danger">Kill Multicast</a>
+		}
+		else
+		{
+			<div class="alert">
+			The current active image is @locals.currentImage
+			</div>
+			<a href="/multicast?start=true" class="btn btn-success">Start Multicast</a>
+		}
+	</div>
+    <script src="http://code.jquery.com/jquery.js"></script>
+  </body>
+</html>

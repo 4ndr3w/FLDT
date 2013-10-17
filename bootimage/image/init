@@ -17,6 +17,4 @@ echo "Welcome to the Fast Linux Deployment Toolkit"
 echo "Built by Andrew Lobos <andrew@lobos.me>"
 
 sh /image.sh
-sh
-#drop to shell
-#setsid sh -c 'exec sh </dev/tty1 >/dev/tty1 2>&1'
+setsid sh -c 'exec sh </dev/tty1 >/dev/tty1 2>&1'

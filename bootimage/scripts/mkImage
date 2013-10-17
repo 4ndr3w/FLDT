@@ -1,0 +1,38 @@
+#!/bin/sh
+
+IMAGING_SERVER="10.0.0.1"
+
+mkdir nfs
+mount -t nfs4 $IMAGING_SERVER:/images nfs
+
+echo -n "Enter a name for this image: "
+read IMAGENAME
+
+echo "This image will be saved as $IMAGENAME"
+mkdir /nfs/$IMAGENAME
+
+echo "Copying MBR"
+dd if=/dev/sda of=/nfs/$IMAGENAME/mbr.bin bs=512 count=1
+echo "Done"
+
+while :
+do
+	echo "Enter the name of the device that you would like to copy or type exit to finish imaging."
+	echo "Available devices are"
+	for f in `find /dev/sd*`
+	do
+		echo -n "`basename $f` "
+	done
+	echo ""
+	
+	echo -n "Device: "
+	read DEVNAME
+	
+	if [ "$DEVNAME" == "exit" ]; then
+		break
+	fi
+	
+	partclone.extfs -c -s /dev/$DEVNAME -o /nfs/$IMAGENAME/$DEVNAME -L log
+done
+
+echo "Done Imaging"

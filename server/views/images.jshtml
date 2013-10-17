@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Imaging</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+	<div class="navbar navbar-fixed-top">
+	  <div class="navbar-inner">
+	  	<div class="container">
+	   	 <a class="brand" href="#">FLDT</a>
+	    	<ul class="nav">
+	    	  <li class="active"><a href="/images">Images</a></li>
+	      	 <li><a href="/hosts">Hosts</a></li>
+	     	 <li><a href="/multicast">Multicast</a></li>
+	    	</ul>
+	  	</div>
+	</div>
+	
+	<div class="container">
+		<br>
+		<h3>Images</h3>
+		<hr>
+		Active Image: 
+		<select id="selectedImage">
+		@for ( var i = 0; i < locals.images.length; i++ )
+		{
+		@locals.selectedImage
+			@if ( locals.selectedImage == i )
+			{
+				<option value="@i" selected="selected">@locals.images[i]</option>
+			}
+			else
+			{
+				<option value="@i">@locals.images[i]</option>
+			}
+		}
+		</select>
+	
+		<div class="well">
+		Images are stored on the server in /images<br>
+		Each image has it's own folder. This folder contains the MBR and a file for each partition that was imaged.<br><br>
+		To remove an image, delete it's folder.<br>
+		To create an image, boot using the mkImage initrd on the source computer.
+		</div>
+	</div>
+	
+
+	
+    <script src="/static/js/jquery.js"></script>
+	<script type="text/javascript">
+	$("#selectedImage").change(function()
+	{
+		value = $("#selectedImage").val();
+		$.get("/api/currentImage?set="+value);
+	});
+	</script>
+  </body>
+</html>
