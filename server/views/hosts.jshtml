@@ -21,7 +21,7 @@
 	
 	
 	<div class="container">
-		<br>
+		<br><br>
 		<h3>Hosts</h3>
 		<hr>
 		<form action="" method="post" enctype="multipart/form-data">
