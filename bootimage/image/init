@@ -2,8 +2,9 @@
 
 /bin/busybox sh /busyboxinit.sh
 
-mkdir proc
-mkdir sys
+mkdir /proc
+mkdir /sys
+mkdir /mnt
 
 mount -t proc proc proc
 mount -t sysfs sys sys

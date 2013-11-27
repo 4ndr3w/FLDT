@@ -19,6 +19,7 @@ mount -t sysfs sys /mnt/sys
 
 chroot /mnt sh -c "grub-mkdevicemap"
 chroot /mnt sh -c "grub-install /dev/sda --force"
+chroot /mnt sh -c "update-grub"
 
 umount /mnt/dev
 umount /mnt/sys
