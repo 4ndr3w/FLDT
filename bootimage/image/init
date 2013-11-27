@@ -5,6 +5,7 @@
 mkdir /proc
 mkdir /sys
 mkdir /mnt
+mkdir /nfs
 
 mount -t proc proc proc
 mount -t sysfs sys sys
